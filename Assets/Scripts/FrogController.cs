@@ -4,16 +4,21 @@ using System.Collections;
 
 public class FrogController : MonoBehaviour
 {
+    [SerializeField] Animator _anim;
+    public float moveTime = 0.15f;
+    [SerializeField] private bool canMove;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        canMove = true;
+        _anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        PlayerUpdate();
+        if(canMove) PlayerUpdate();
     }
 
     void PlayerUpdate()
@@ -42,6 +47,8 @@ public class FrogController : MonoBehaviour
 
     void PlayerMove(Vector2 _direction)
     {
+        canMove = false;
+        _anim.SetTrigger("Hop");
         Vector2 _destination = transform.position + (Vector3)_direction;
         StartCoroutine(LerpMove(_destination));
     }
@@ -56,10 +63,12 @@ public class FrogController : MonoBehaviour
         {
             float _time = elapsedTime / duration;
             transform.position = Vector2.Lerp(startPos, _destination, _time);
-            elapsedTime -= Time.deltaTime;
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         transform.position = _destination;
+        yield return new WaitForSeconds(moveTime);
+        canMove = true;
     }
 }
