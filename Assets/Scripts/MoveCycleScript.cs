@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using UnityEditorInternal;
 
 public class MoveCycleScript : MonoBehaviour
 {
@@ -24,6 +25,22 @@ public class MoveCycleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (moveDirection.x > 0 && (transform.position.x - objSize) > rightEdge.x)
+        {
+            Vector2 _position = transform.position;
+            _position.x = leftEdge.x - objSize;
+            transform.position = _position;
+        }
+
+        else if(moveDirection.x < 0 && (transform.position.x + objSize) < leftEdge.x)
+        {
+            Vector2 _position = transform.position;
+            _position.x = rightEdge.x + objSize;
+            transform.position = _position;
+        }
+        else
+        {
+            transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+        }
     }
 }
