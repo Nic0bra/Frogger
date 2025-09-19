@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class FrogController : MonoBehaviour
 {
@@ -41,25 +42,29 @@ public class FrogController : MonoBehaviour
 
     void PlayerUpdate()
     {
-        if (_actions.Player.Up.triggered)
+        if (!isDead)
         {
-            transform.rotation = Quaternion.Euler(0,0,0);
-            PlayerMove(Vector2.up);
-        }
-        if (_actions.Player.Down.triggered)
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 180);
-            PlayerMove(Vector2.down);
-        }
-        if (_actions.Player.Left.triggered)
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 90);
-            PlayerMove(Vector2.left);
-        }
-        if (_actions.Player.Right.triggered)
-        {
-            transform.rotation = Quaternion.Euler(0, 0, -90);
-            PlayerMove(Vector2.right);
+
+            if (_actions.Player.Up.triggered)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                PlayerMove(Vector2.up);
+            }
+            if (_actions.Player.Down.triggered)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 180);
+                PlayerMove(Vector2.down);
+            }
+            if (_actions.Player.Left.triggered)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 90);
+                PlayerMove(Vector2.left);
+            }
+            if (_actions.Player.Right.triggered)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, -90);
+                PlayerMove(Vector2.right);
+            }
         }
     }
 
@@ -68,6 +73,16 @@ public class FrogController : MonoBehaviour
         canMove = false;
         _anim.SetTrigger("Hop");
         Vector2 _destination = transform.position + (Vector3)_direction;
+
+        Collider2D _barrier = Physics2D.OverlapBox(_destination,
+                                                    Vector2.zero,
+                                                    0,
+                                                    LayerMask.GetMask("Barrier"));
+        /*if(_barrier != null)
+        {
+            return;
+        }*/
+
 
         Collider2D _platform = Physics2D.OverlapBox(_destination, 
                                                     Vector2.zero, 
@@ -104,5 +119,21 @@ public class FrogController : MonoBehaviour
         transform.position = _destination;
         yield return new WaitForSeconds(moveTime);
         canMove = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Obstacle")
+        {
+            StartCoroutine(FrogDeath());
+        }
+    }
+    IEnumerator FrogDeath()
+    {
+        isDead = true;
+        _anim.SetTrigger("Dead");
+        yield return new WaitForSeconds(1.5f);
+        GameManager.Instance.SpawnFrog();
+        Destroy(gameObject);
     }
 }
