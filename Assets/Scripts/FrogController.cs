@@ -118,6 +118,14 @@ public class FrogController : MonoBehaviour
 
         transform.position = _destination;
         yield return new WaitForSeconds(moveTime);
+        if (onRiver)
+        {
+            if (!onPlatform)
+            {
+                StartCoroutine(FrogDeath());
+            }
+        }
+
         canMove = true;
     }
 
@@ -127,6 +135,23 @@ public class FrogController : MonoBehaviour
         {
             StartCoroutine(FrogDeath());
         }
+        if (other.gameObject.tag == "River")
+        {
+            onRiver = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "River")
+        {
+            onRiver = false;
+        }
+    }
+
+    public void KillPlayer()
+    {
+        StartCoroutine(FrogDeath());
     }
     IEnumerator FrogDeath()
     {
