@@ -2,6 +2,37 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    public AudioSource musicSource;
+
+    public void PlayMusic(string groupId= "Background", bool loop = true)
+    {
+        if (musicSource == null)
+        {
+            return;
+        }
+        var clip = sfxLibrary.GetClipFromName(groupId);
+        if (clip == null)
+        {
+            return;
+        }
+
+        musicSource.loop = loop;
+        if(musicSource.clip == clip && musicSource.isPlaying )
+        {
+            return;
+        }
+        musicSource.clip = clip;
+        musicSource.Play();
+    }
+
+    public void StopMusic()
+    {
+        if (musicSource == null)
+        {
+            return;
+        }
+        musicSource.Stop();
+    }
     //Call from any where in the game
     public static SoundManager Instance;
     [SerializeField] private SoundLibrary sfxLibrary;

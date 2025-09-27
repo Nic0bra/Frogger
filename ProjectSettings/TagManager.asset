@@ -7,6 +7,9 @@ TagManager:
   - Obstacle
   - StartPoint
   - River
+  - kiLL
+  - Kill
+  - Platform
   layers:
   - Default
   - TransparentFX

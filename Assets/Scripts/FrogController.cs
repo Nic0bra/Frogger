@@ -14,6 +14,7 @@ public class FrogController : MonoBehaviour
     [SerializeField] private bool onRiver;
     [SerializeField] private bool onPlatform;
 
+
     private void Awake()
     {
         _actions = new Frogger_InputActions();
@@ -70,6 +71,10 @@ public class FrogController : MonoBehaviour
 
     void PlayerMove(Vector2 _direction)
     {
+        if (isDead)
+        {
+            return;
+        }
         canMove = false;
         _anim.SetTrigger("Hop");
         Vector2 _destination = transform.position + (Vector3)_direction;
@@ -78,10 +83,7 @@ public class FrogController : MonoBehaviour
                                                     Vector2.zero,
                                                     0,
                                                     LayerMask.GetMask("Barrier"));
-        /*if(_barrier != null)
-        {
-            return;
-        }*/
+        SoundManager.Instance.PlaySound2D("Hop");
 
 
         Collider2D _platform = Physics2D.OverlapBox(_destination, 
@@ -110,6 +112,10 @@ public class FrogController : MonoBehaviour
         
         while (elapsedTime < duration)
         {
+            if (isDead)
+            {
+                yield break;
+            }
             float _time = elapsedTime / duration;
             transform.position = Vector2.Lerp(startPos, _destination, _time);
             elapsedTime += Time.deltaTime;
@@ -118,12 +124,14 @@ public class FrogController : MonoBehaviour
 
         transform.position = _destination;
         yield return new WaitForSeconds(moveTime);
-        if (onRiver)
+        if (isDead)
         {
-            if (!onPlatform)
-            {
-                StartCoroutine(FrogDeath());
-            }
+            yield break;
+        }
+        if (onRiver && !onPlatform)
+        {
+            KillPlayer();
+            yield break;
         }
 
         canMove = true;
@@ -131,13 +139,24 @@ public class FrogController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (isDead)
+        {
+            return;
+        }
         if (other.gameObject.tag == "Obstacle")
         {
-            StartCoroutine(FrogDeath());
+            SoundManager.Instance.PlaySound2D("Squash");
+            KillPlayer();
         }
         if (other.gameObject.tag == "River")
         {
+            SoundManager.Instance.PlaySound2D("Plunk");
             onRiver = true;
+        }
+        if(other.gameObject.tag == "Kill")
+        {
+            SoundManager.Instance.PlaySound2D("Squash");
+            KillPlayer();
         }
     }
 
@@ -151,14 +170,38 @@ public class FrogController : MonoBehaviour
 
     public void KillPlayer()
     {
+        if (isDead)
+        {
+            return;
+        }
+        isDead = true;
+        canMove = false;
+        StopAllCoroutines();
         StartCoroutine(FrogDeath());
     }
     IEnumerator FrogDeath()
     {
-        isDead = true;
+        transform.SetParent(null);
+        onPlatform = false;
+
+        var col = GetComponent<Collider2D>();
+        if(col)
+        {
+            col.enabled = false;
+        }
+
+        if(GameManager.Instance && GameManager.Instance.attemptTimer)
+        {
+            GameManager.Instance.attemptTimer.OnFrogDied();
+        }
         _anim.SetTrigger("Dead");
         yield return new WaitForSeconds(1.5f);
-        GameManager.Instance.SpawnFrog();
+        GameManager.Instance.lifeCounter--;
+        if(GameManager.Instance.currentFrog == this)
+        {
+            GameManager.Instance.currentFrog = null;
+        }
         Destroy(gameObject);
+        GameManager.Instance.SpawnFrog();
     }
 }

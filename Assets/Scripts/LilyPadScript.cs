@@ -21,6 +21,17 @@ public class LilyPadScript : MonoBehaviour
             {
                 isOccupied = true;
                 frogImage.SetActive (true);
+                GameManager.Instance.lilypadCounter--;
+
+                if(GameManager.Instance.attemptTimer != null)
+                {
+                    GameManager.Instance.attemptTimer.OnReachedLilyPad();
+                }
+
+                if(GameManager.Instance.currentFrog != null)
+                {
+                    GameManager.Instance.currentFrog = null;
+                }
                 GameManager.Instance.SpawnFrog();
                 Destroy(other.gameObject);
             }
