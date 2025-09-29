@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      frog-hop-suitcase-tie_0: -7815036035026396200
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
