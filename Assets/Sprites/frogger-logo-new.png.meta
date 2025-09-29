@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      frogger-logo-new_0: 4494139928341991395
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

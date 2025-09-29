@@ -1097,7 +1097,46 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      graphics-game-sprites_0: 8479661682124826353
+      graphics-game-sprites_1: -731918869416778285
+      graphics-game-sprites_10: 5212964371767771582
+      graphics-game-sprites_11: -2498848338988893019
+      graphics-game-sprites_12: 8497447101510178206
+      graphics-game-sprites_13: -9137554495323412800
+      graphics-game-sprites_14: 3438019309530691815
+      graphics-game-sprites_15: -2027392090043133916
+      graphics-game-sprites_16: 457035700496233919
+      graphics-game-sprites_17: 3100314696864775809
+      graphics-game-sprites_18: 786853936229082441
+      graphics-game-sprites_19: -8804954827252248434
+      graphics-game-sprites_2: 5743952788141276246
+      graphics-game-sprites_20: -6790622169953178428
+      graphics-game-sprites_21: 3922140315927172148
+      graphics-game-sprites_22: -8071654769021303228
+      graphics-game-sprites_23: -4208933432518503
+      graphics-game-sprites_24: 241903014050018181
+      graphics-game-sprites_25: -2597160318170379441
+      graphics-game-sprites_26: 8413573465021376839
+      graphics-game-sprites_27: -7022024456820428448
+      graphics-game-sprites_28: 1464997924648694303
+      graphics-game-sprites_29: -8399743593820156356
+      graphics-game-sprites_3: -6390476546856472160
+      graphics-game-sprites_30: 6428720735212775323
+      graphics-game-sprites_31: 2716986439244548871
+      graphics-game-sprites_32: 4602501133506558359
+      graphics-game-sprites_33: -4226846929216824363
+      graphics-game-sprites_34: 1764118673286211220
+      graphics-game-sprites_35: 6883034021794671477
+      graphics-game-sprites_36: -5167400998531205891
+      graphics-game-sprites_37: 5143827154388096405
+      graphics-game-sprites_38: -7528013593084778801
+      graphics-game-sprites_4: 377679068095545596
+      graphics-game-sprites_5: -1261999485277790293
+      graphics-game-sprites_6: 6703225143736674925
+      graphics-game-sprites_7: -7357682412535790186
+      graphics-game-sprites_8: -3350248326412232731
+      graphics-game-sprites_9: 218306023719712920
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
