@@ -14,7 +14,6 @@ public class FrogController : MonoBehaviour
     [SerializeField] private bool onRiver;
     [SerializeField] private bool onPlatform;
 
-
     private void Awake()
     {
         _actions = new Frogger_InputActions();
@@ -80,14 +79,19 @@ public class FrogController : MonoBehaviour
         Vector2 _destination = transform.position + (Vector3)_direction;
 
         Collider2D _barrier = Physics2D.OverlapBox(_destination,
-                                                    Vector2.zero,
+                                                    new Vector2(.9f, .9f),
                                                     0,
                                                     LayerMask.GetMask("Barrier"));
+        if (_barrier!= null)
+        {
+            canMove = true;
+            return;
+        }
         SoundManager.Instance.PlaySound2D("Hop");
 
 
-        Collider2D _platform = Physics2D.OverlapBox(_destination, 
-                                                    Vector2.zero, 
+        Collider2D _platform = Physics2D.OverlapBox(_destination,
+                                                    new Vector2(.9f, .9f),
                                                     0, 
                                                     LayerMask.GetMask("Platform"));
         if (_platform != null)

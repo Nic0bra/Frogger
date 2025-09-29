@@ -1,7 +1,6 @@
 using UnityEngine;
 using System;
 using System.Collections;
-using UnityEditorInternal;
 
 public class MoveCycleScript : MonoBehaviour
 {
